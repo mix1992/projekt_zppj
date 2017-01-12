@@ -26,7 +26,7 @@ public class JaxRsActivator extends Application {
     }
 
     private void addRestResourceClassess(Set<Class<?>> resources) {
-        Reflections reflections = new Reflections("pl.com.cns.endpoints");
+        Reflections reflections = new Reflections("pl.com.radio.endpoints");
         Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(javax.ws.rs.Path.class);
         for (Class c : annotated) {
             resources.add(c);

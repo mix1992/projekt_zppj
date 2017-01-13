@@ -22,4 +22,36 @@ public class BaseDAO {
         em.persist(userEntity);
     }
 
+    public <T> T find(long id, Class<T> clazz) {
+        return em.find(clazz, id);
+    }
+
+    public void persist(Serializable object) {
+        em.persist(object);
+    }
+
+    public void edit(Serializable object) {
+        em.merge(object);
+    }
+
+    public void refresh(Serializable object) {
+        em.refresh(object);
+    }
+
+    public void evict(Long id, Class clazz) {
+        em.getEntityManagerFactory().getCache().evict(clazz, id);
+    }
+
+    public void clearCache() {
+        em.getEntityManagerFactory().getCache().evictAll();
+    }
+
+    public void flush() {
+        em.flush();
+    }
+
+    public void remove(Serializable object) {
+        em.remove(object);
+    }
+
 }

@@ -5,6 +5,7 @@
  */
 package pl.com.radio.endpoints;
 
+import io.swagger.annotations.Api;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;
@@ -20,6 +21,7 @@ import pl.com.radio.services.StationService;
  *
  * @author bartek
  */
+@Api("Station Endpoints")
 @Path("station")
 public class StationEndpoint extends BaseEndpoint {
 

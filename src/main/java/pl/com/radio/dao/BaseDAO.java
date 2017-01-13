@@ -8,6 +8,7 @@ package pl.com.radio.dao;
 import java.io.Serializable;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -52,6 +53,11 @@ public class BaseDAO {
 
     public void remove(Serializable object) {
         em.remove(object);
+    }
+
+    protected Query createOffsetNamedQuery(String queryName) {
+        Query query = em.createNamedQuery(queryName);
+        return query;
     }
 
 }

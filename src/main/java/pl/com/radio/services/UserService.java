@@ -5,6 +5,7 @@
  */
 package pl.com.radio.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -31,11 +32,20 @@ public class UserService {
     }
 
     public List<UserDTO> getUsers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<UserEntity> users = userDAO.findAllUsers();
+        List<UserDTO> usersDTO = new ArrayList<>();
+        users.forEach(user -> usersDTO.add(new UserDTO().populate(user)));
+        users.forEach(user -> userDAO.evict(user.getId(), UserEntity.class));
+        return usersDTO;
     }
 
     public UserDTO deleteUser(Long userId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        UserEntity userEntity = userDAO.find(userId);
+        if (userEntity == null) {
+            //TODO: nie znaleziono
+        }
+        userDAO.remove(userEntity);
+        return new UserDTO().populate(userEntity);
     }
 
     private void checkUserDTO(UserDTO userDTO) {

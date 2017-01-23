@@ -6,8 +6,6 @@
 package pl.com.radio.services;
 
 import javax.ejb.Stateless;
-import pl.com.radio.models.LoginRequestMessage;
-import pl.com.radio.models.LoginResponseMessage;
 
 /**
  *
@@ -15,9 +13,5 @@ import pl.com.radio.models.LoginResponseMessage;
  */
 @Stateless
 public class CoreService {
-
-    public LoginResponseMessage login(LoginRequestMessage loginMessage) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
 }

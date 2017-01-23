@@ -18,6 +18,7 @@ public class UserDTO implements Mapper<UserEntity, UserDTO> {
     private String firstName;
     private String lastName;
     private String email;
+    private String password;
 
     @Override
     public UserDTO populate(UserEntity entity) {
@@ -75,6 +76,14 @@ public class UserDTO implements Mapper<UserEntity, UserDTO> {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }

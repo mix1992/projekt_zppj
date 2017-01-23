@@ -7,6 +7,7 @@ package pl.com.radio.dao;
 
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import pl.com.radio.entity.UserEntity;
 
 /**
@@ -21,7 +22,17 @@ public class UserDAO extends BaseDAO {
     }
 
     public List<UserEntity> findAllUsers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Query q = em.createNamedQuery("User.all");
+        List<UserEntity> rs = q.getResultList();
+        return rs;
+    }
+
+    public UserEntity findUserByEmail(String email) {
+        Query q = em.createNamedQuery("User.byEmail");
+        q.setParameter("email", email);
+        q.setMaxResults(1);
+        List<UserEntity> rs = q.getResultList();
+        return rs.isEmpty() ? null : rs.get(0);
     }
 
 }

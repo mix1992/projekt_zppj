@@ -26,7 +26,8 @@
         <param-name>resteasy.providers</param-name>
         <param-value>
             pl.com.radio.filters.CORSFilter,
-            pl.com.radio.providers.JacksonJsonProvider
+            pl.com.radio.providers.JacksonJsonProvider,
+            pl.com.radio.filters.AuthRequestFilter
         </param-value>
     </context-param>
 </web-app>

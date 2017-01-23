@@ -9,9 +9,13 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -25,6 +29,10 @@ import javax.persistence.UniqueConstraint;
             @UniqueConstraint(columnNames = {"login"})
         }
 )
+@NamedQueries({
+    @NamedQuery(name = "User.byEmail", query = "SELECT u FROM UserEntity u WHERE u.email = :email"),
+    @NamedQuery(name = "User.all", query = "SELECT u FROM UserEntity u")
+})
 public class UserEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,6 +53,12 @@ public class UserEntity implements Serializable {
 
     @Column(name = "email")
     private String email;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    private InternalToken internalToken;
+
+    @Column(name = "password")
+    private String password;
 
     public Long getId() {
         return id;
@@ -84,6 +98,22 @@ public class UserEntity implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public InternalToken getInternalToken() {
+        return internalToken;
+    }
+
+    public void setInternalToken(InternalToken internalToken) {
+        this.internalToken = internalToken;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }

@@ -28,6 +28,7 @@ public class UserService {
         UserEntity userEntity = new UserEntity();
         userDTO.reversePopulate(userEntity);
         userDAO.create(userEntity);
+        userEntity.setPassword(Utils.sha256(userDTO.getPassword().getBytes()));
         return new UserDTO().populate(userEntity);
     }
 

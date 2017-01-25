@@ -5,6 +5,7 @@
  */
 package pl.com.radio.endpoints;
 
+import annotations.AuthRequired;
 import io.swagger.annotations.Api;
 import java.util.List;
 import javax.inject.Inject;
@@ -24,6 +25,7 @@ import pl.com.radio.services.UserService;
  */
 @Api("User Endpoints")
 @Path("user")
+@AuthRequired
 public class UserEndpoint extends BaseEndpoint {
 
     @Inject

@@ -73,7 +73,7 @@
                     var xhr = new XMLHttpRequest();
                     xhr.open("POST", 'rest/station', true);
                     xhr.onreadystatechange = function () {
-                        if (xhr.readyState == XMLHttpRequest.DONE) {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
                             if (xhr.status === 202) {
                                 document.location.href = "radio.html";
                             } else {

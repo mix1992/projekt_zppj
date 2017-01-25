@@ -47,7 +47,7 @@ public class StationEndpoint extends BaseEndpoint {
 
     @DELETE
     @Path("{stationId}")
-    public Response deleteStation(@PathParam("userId") Long stationId) {
+    public Response deleteStation(@PathParam("stationId") Long stationId) {
         StationDTO stationDTO = stationService.deleteStation(stationId);
         return Response.accepted().entity(stationDTO).build();
     }

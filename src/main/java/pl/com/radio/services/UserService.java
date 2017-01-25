@@ -60,9 +60,9 @@ public class UserService {
         if (userDTO.getLastName() == null || userDTO.getLastName().isEmpty()) {
             throw new ServiceException(0, "userLastNameNotFound");
         }
-        if (userDTO.getLogin() == null || userDTO.getLogin().isEmpty()) {
-            throw new ServiceException(0, "userLoginNotFound");
-        }
+//        if (userDTO.getLogin() == null || userDTO.getLogin().isEmpty()) {
+//            throw new ServiceException(0, "userLoginNotFound");
+//        }
         if (userDTO.getPassword() == null || userDTO.getPassword().isEmpty()) {
             throw new ServiceException(0, "userPasswordNotFound");
         }

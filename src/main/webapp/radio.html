@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Radio Rybak & Skorupski</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="fonts/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    </head>
+    <body>
+        <div class="container-fluid" style="margin-top: 5%">
+            <button type="button" class="btn btn-default pull-right" style="margin-right: 20%" onclick="logout()">
+                Wyloguj
+            </button>
+        </div>
+        <div class="container-fluid" >
+            <img src="radiologo.png" alt="LOGO" style="display: block; margin-left: auto; margin-right: auto;">
+            <div class="row" >
+                <center>
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="station" aria-describedby="station" placeholder="Stacja">
+                    </div>
+                    <div class="col-md-4"></div>
+                </center>
+            </div>
+
+            <div class="row" style="margin-top: 2%">
+                <center>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-lg btn-success" onclick="startRadio()">START</button>
+                        <button type="button" class="btn btn-lg btn-danger" onclick="stopRadio()">STOP</button>
+                    </div>
+                    <div class="col-md-4"></div>
+                </center>
+            </div>
+            <div class="row" style="margin-top: 2%">
+                <center>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <p> Przykładowe stacje:<br/>
+                            http://eteris.startfm.lt/startfm.ogg <br/>
+                            http://ant-waw-01.cdn.eurozet.pl:8602/listen.pls
+
+                        </p>
+                    </div>
+                    <div class="col-md-4"></div>
+                </center>
+            </div>
+
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    ID:
+                                </th>
+                                <th>
+                                    Email:
+                                </th>
+                                <th>
+                                    Imię:
+                                </th>
+                                <th>
+                                    Nazwisko
+                                </th>
+                                <th>
+                                    <i class="fa fa-plus-square"  style="color: green; focus" onclick="addUser()"></i>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersOverride">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    ID:
+                                </th>
+                                <th>
+                                    Nazwa:
+                                </th>
+                                <th>
+                                    Adres:
+                                </th>
+                                <th>
+                                    <i class="fa fa-plus-square"  style="color: green; focus" onclick="addStation()" ></i>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="stationOverride">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" >
+            function startRadio() {
+                var data = {};
+                data['path'] = document.getElementById("station").value;
+                if (data['path'].length > 1) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", 'rest/radio', true);
+                    xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+                    xhr.setRequestHeader("Session-token", getToken());
+                    xhr.send(JSON.stringify(data));
+                } else {
+                    alert('Podaj adres Radia');
+                }
+            }
+
+            function stopRadio() {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", 'rest/radio', true);
+                xhr.setRequestHeader("Session-token", getToken());
+                xhr.send();
+            }
+
+            function addUser() {
+                document.location.href = "newUser.html";
+            }
+
+            function addStation() {
+                document.location.href = "newStation.html";
+            }
+
+            function logout() {
+                saveToCookie("");
+                getToken();
+            }
+
+            function getStations() {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", 'rest/station', true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            var jsonObject = JSON.parse(xhr.responseText);
+                            var htmlForStations = '';
+                            jsonObject.forEach(
+                                    function pint(item, index) {
+                                        htmlForStations += '<tr><td>' + item.id + '</td><td>' + item.name + '</td><td>' + item.path +
+                                                '</td><td><i class="fa fa-play-circle" style="color: green; focus" ></i><i class="fa fa-window-close" style="color: red; focus" ></i></td></tr>';
+                                    }
+                            );
+                            var stationOverrider = document.getElementById("stationOverride");
+                            stationOverrider.innerHTML = htmlForStations;
+                        } else {
+                            alert("Coś poszło nie tak");
+                        }
+                    }
+                }
+                xhr.setRequestHeader("Session-token", getToken());
+                xhr.send();
+            }
+
+            function getUsers() {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", 'rest/user', true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            var jsonObject = JSON.parse(xhr.responseText);
+                            var htmlForStations = '';
+                            jsonObject.forEach(
+                                    function pint(item, index) {
+                                        htmlForStations += '<tr><td>' + item.id + '</td><td>' + item.email + '</td><td>' + item.firstName + '</td><td>' + item.lastName +
+                                                '</td><td></i><i class="fa fa-window-close" style="color: red; focus" ></i></td></tr>';
+                                    }
+                            );
+
+                            var stationOverrider = document.getElementById("usersOverride");
+                            stationOverrider.innerHTML = htmlForStations;
+                        } else {
+                            alert("Coś poszło nie tak");
+                        }
+                    }
+                }
+                xhr.setRequestHeader("Session-token", getToken());
+                xhr.send();
+            }
+
+            var ready = function (fn) {
+                if (typeof fn !== 'function')
+                    return;
+                if (document.readyState === 'complete') {
+                    return fn();
+                }
+                document.addEventListener('onpageshow', fn, false);
+            };
+
+            function getToken() {
+                var token = getCookie("token");
+                if (token === '' || token === undefined) {
+                    document.location.href = "index.html";
+                } else {
+                    return token;
+                }
+            }
+
+            function getCookie(cname) {
+                var name = cname + "=";
+                var decodedCookie = decodeURIComponent(document.cookie);
+                var ca = decodedCookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
+            }
+
+            ready(getStations());
+            ready(getUsers());
+        </script>
+
+        <script src="js/cookie.js"></script>
+    </body>
+</html>
+

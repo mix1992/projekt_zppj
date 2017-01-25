@@ -3,73 +3,78 @@
     <head>
         <title>Radio Rybak & Skorupski</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
               integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     </head>
-    <body>
-        <img src="radiologo.png" alt="LOGO" style="display: block; margin-top: 10%; margin-left: auto; margin-right: auto;">
-        <div class="row" >
-            <center>
+    <body background="radiologo.png">
+        <div class="container-fluid" style="margin-top: 15%">
+            <div class="row">
                 <div class="col-md-4">
                 </div>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" id="station" aria-describedby="station" placeholder="Stacja">
+                    <form>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <label for="login">
+                                        Login:
+                                    </label>
+                                    <input type="text" class="form-control" id="login" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">
+                                        Hasło:
+                                    </label>
+                                    <input type="password" class="form-control" id="password" />
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <button type="button" class="btn btn-primary" onclick="save()">
+                                    Zaloguj
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-md-4 col-xs-9"></div>
-            </center>
-        </div>
-
-        <div class="row" style="margin-top: 2%">
-            <center>
-                <div class="col-md-4"></div>
                 <div class="col-md-4">
-                    <button type="button" class="btn btn-lg btn-success" onclick="startRadio()">START</button>
-                    <button type="button" class="btn btn-lg btn-danger" onclick="stopRadio()">STOP</button>
                 </div>
-                <div class="col-md-4 col-xs-9"></div>
-            </center>
-        </div>
-        <div class="row" style="margin-top: 2%">
-            <center>
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <p> Przykładowe stacje:<br/>
-                        http://eteris.startfm.lt/startfm.ogg <br/>
-                        http://ant-waw-01.cdn.eurozet.pl:8602/listen.pls
-                        http://www.eskago.pl/radio/eska-rock
-                        http://www.eskago.pl/radio/eska-warszawa
-                    </p>
-                </div>
-                <div class="col-md-4"></div>
-            </center>
+            </div>
         </div>
 
 
-        <script type="text/javascript" >
-            function startRadio() {
-                var data = {};
-                data['path'] = document.getElementById("station").value;
-
-                if (data['path'].length > 1) {
-                    // construct an HTTP request
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("POST", 'rest/radio', true);
-                    xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-
-                    // send the collected data as JSON
-                    xhr.send(JSON.stringify(data));
+        <script type="text/javascript">
+            function logToSystem() {
+                var login = document.getElementById("login").value;
+                var password = document.getElementById("password").value;
+                if (login === "" || password === "") {
+                    alert("Podaj dane logowania");
                 } else {
-                    alert('Podaj adres Radia');
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", 'rest/core/login', true);
+                    xhr.setRequestHeader('Accept', 'application/json');
+                    var base = btoa(login + ":" + password)
+                    xhr.setRequestHeader('Authorization', 'Basic ' + base);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState == XMLHttpRequest.DONE) {
+                            if (xhr.status !== 500) {
+                                var jsonObject = JSON.parse(xhr.responseText);
+                                if (jsonObject.token !== '' && jsonObject.token !== undefined) {
+                                    saveToCookie(jsonObject.token)
+                                    document.location.href = "radio.html";
+                                } else {
+                                    alert("Błąd logowania");
+                                }
+                            } else {
+                                alert("Błąd logowania");
+                            }
+                        }
+                    }
+                    xhr.send();
                 }
             }
-
-            function stopRadio() {
-
-                // construct an HTTP request
-                var xhr = new XMLHttpRequest();
-                xhr.open("GET", 'rest/radio', true);
-                xhr.send();
-            }
         </script>
+        <script src="js/cookie.js"></script>
     </body>
+
 </html>

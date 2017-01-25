@@ -21,12 +21,14 @@ public class JaxRsActivator extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> s = new HashSet<>();
+        s.add(io.swagger.jaxrs.listing.ApiListingResource.class);
+        s.add(io.swagger.jaxrs.listing.SwaggerSerializers.class);
         addRestResourceClassess(s);
         return s;
     }
 
     private void addRestResourceClassess(Set<Class<?>> resources) {
-        Reflections reflections = new Reflections("pl.com.cns.endpoints");
+        Reflections reflections = new Reflections("pl.com.radio.endpoints");
         Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(javax.ws.rs.Path.class);
         for (Class c : annotated) {
             resources.add(c);

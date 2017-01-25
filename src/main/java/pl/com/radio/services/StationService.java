@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import pl.com.radio.dao.StationDAO;
 import pl.com.radio.entity.StationEntity;
+import pl.com.radio.exceptions.ServiceException;
 import pl.com.radio.models.StationDTO;
 
 /**
@@ -23,7 +24,7 @@ public class StationService {
     @Inject
     private StationDAO stationDAO;
 
-    public StationDTO addStation(StationDTO stationDTO) {
+    public StationDTO addStation(StationDTO stationDTO) throws ServiceException {
         checkStationDTO(stationDTO);
         StationEntity stationEntity = new StationEntity();
         stationDTO.reversePopulate(stationEntity);
@@ -48,8 +49,13 @@ public class StationService {
         return new StationDTO().populate(stationEntity);
     }
 
-    private void checkStationDTO(StationDTO stationDTO) {
-
+    private void checkStationDTO(StationDTO stationDTO) throws ServiceException {
+        if (stationDTO.getName() == null || stationDTO.getName().isEmpty()) {
+            throw new ServiceException(0, "stationNameNotFound");
+        }
+        if (stationDTO.getPath() == null || stationDTO.getPath().isEmpty()) {
+            throw new ServiceException(0, "stationPathNotFound");
+        }
     }
 
 }

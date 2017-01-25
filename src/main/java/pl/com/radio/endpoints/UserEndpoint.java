@@ -14,6 +14,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
+import pl.com.radio.exceptions.ServiceException;
 import pl.com.radio.models.UserDTO;
 import pl.com.radio.services.UserService;
 
@@ -30,8 +31,12 @@ public class UserEndpoint extends BaseEndpoint {
 
     @POST
     public Response addUser(UserDTO userDTO) {
-        UserDTO responseDTO = userService.createUser(userDTO);
-        return Response.accepted().entity(responseDTO).build();
+        try {
+            UserDTO responseDTO = userService.createUser(userDTO);
+            return Response.accepted().entity(responseDTO).build();
+        } catch (ServiceException ex) {
+            return Response.serverError().entity(ex).build();
+        }
     }
 
     @GET
@@ -43,7 +48,11 @@ public class UserEndpoint extends BaseEndpoint {
     @DELETE
     @Path("{userId}")
     public Response deleteUser(@PathParam("userId") Long userId) {
-        UserDTO userDTO = userService.deleteUser(userId);
-        return Response.accepted().entity(userDTO).build();
+        try {
+            UserDTO userDTO = userService.deleteUser(userId);
+            return Response.accepted().entity(userDTO).build();
+        } catch (ServiceException ex) {
+            return Response.serverError().entity(ex).build();
+        }
     }
 }

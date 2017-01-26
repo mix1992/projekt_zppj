@@ -13,6 +13,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
+import pl.com.radio.models.StationDTO;
 import pl.com.radio.models.StationPathDTO;
 import pl.com.radio.services.RadioService;
 
@@ -38,6 +39,13 @@ public class RadioEndpoint extends BaseEndpoint {
     public Response stopRadio() throws IOException {
         radioService.stopRadio();
         return Response.ok().build();
+    }
+    
+    @GET
+    @Path("currentStation")
+    public Response getCurrentStation() {
+        StationDTO stationDTO = radioService.getCurrentPplayedStation();
+        return Response.accepted().entity(stationDTO).build();
     }
 
 }

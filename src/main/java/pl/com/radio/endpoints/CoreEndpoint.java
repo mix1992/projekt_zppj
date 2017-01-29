@@ -24,6 +24,11 @@ import pl.com.radio.services.AuthService;
  */
 @Api("Core Endpoints")
 @Path("core")
+
+/**
+ * Class extends the BaseEndpoint type and represents endpoint that can send and receive message exchanges
+ * to login and authorization
+ */
 public class CoreEndpoint extends BaseEndpoint {
 
     @Context

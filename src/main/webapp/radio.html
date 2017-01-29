@@ -6,7 +6,6 @@
         <link rel="stylesheet" href="fonts/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
               integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
     </head>
     <body>
         <div class="container-fluid" style="margin-top: 5%">
@@ -71,7 +70,7 @@
                                     Nazwisko
                                 </th>
                                 <th>
-                                    <i class="fa fa-plus-square"  style="color: green; focus" onclick="addUser()"></i>
+                                    <i class="fa fa-plus-square"  style="color: green;" onclick="addUser()"></i>
                                 </th>
                             </tr>
                         </thead>
@@ -143,14 +142,16 @@
                 var xhr = new XMLHttpRequest();
                 xhr.open("GET", 'rest/station', true);
                 xhr.onreadystatechange = function () {
-                    if (xhr.readyState == XMLHttpRequest.DONE) {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {
                             var jsonObject = JSON.parse(xhr.responseText);
                             var htmlForStations = '';
                             jsonObject.forEach(
-                                    function pint(item, index) {
-                                        htmlForStations += '<tr><td>' + item.id + '</td><td>' + item.name + '</td><td>' + item.path +
-                                                '</td><td><i class="fa fa-play-circle" style="color: green; focus" ></i><i class="fa fa-window-close" style="color: red; focus" ></i></td></tr>';
+                                    function print(item, index) {
+                                        htmlForStations += '<tr><td>' + item.id + '</td><td>' + item.name + '</td><td>' + item.path + '</td>' +
+                                                '<td>' +
+                                                '<i class="fa fa-play-circle" style="color: green;" onclick="play(' + "'" + item.path + "'" + ')"></i>' +
+                                                '<i class="fa fa-window-close" style="color: red; focus" onclick="removeStation(' + item.id + ')"></i></td></tr>'
                                     }
                             );
                             var stationOverrider = document.getElementById("stationOverride");
@@ -168,14 +169,15 @@
                 var xhr = new XMLHttpRequest();
                 xhr.open("GET", 'rest/user', true);
                 xhr.onreadystatechange = function () {
-                    if (xhr.readyState == XMLHttpRequest.DONE) {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
                         if (xhr.status === 200) {
                             var jsonObject = JSON.parse(xhr.responseText);
                             var htmlForStations = '';
                             jsonObject.forEach(
-                                    function pint(item, index) {
+                                    function print(item, index) {
                                         htmlForStations += '<tr><td>' + item.id + '</td><td>' + item.email + '</td><td>' + item.firstName + '</td><td>' + item.lastName +
-                                                '</td><td></i><i class="fa fa-window-close" style="color: red; focus" ></i></td></tr>';
+                                                '</td><td></i><i class="fa fa-window-close" style="color: red; focus" onclick="removeUser(' + item.id +
+                                                ')"></i></td></tr>';
                                     }
                             );
 
@@ -214,14 +216,51 @@
                 var ca = decodedCookie.split(';');
                 for (var i = 0; i < ca.length; i++) {
                     var c = ca[i];
-                    while (c.charAt(0) == ' ') {
+                    while (c.charAt(0) === ' ') {
                         c = c.substring(1);
                     }
-                    if (c.indexOf(name) == 0) {
+                    if (c.indexOf(name) === 0) {
                         return c.substring(name.length, c.length);
                     }
                 }
                 return "";
+            }
+
+            function removeStation(id) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("DELETE", 'rest/station/' + id, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 202) {
+                            getStations();
+                        } else {
+                            alert("Coś poszło nie tak");
+                        }
+                    }
+                }
+                xhr.setRequestHeader("Session-token", getToken());
+                xhr.send();
+            }
+
+            function removeUser(id) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("DELETE", 'rest/user/' + id, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 202) {
+                            getUsers();
+                        } else {
+                            alert("Coś poszło nie tak");
+                        }
+                    }
+                }
+                xhr.setRequestHeader("Session-token", getToken());
+                xhr.send();
+            }
+
+            function play(path) {
+                document.getElementById("station").value = path;
+                startRadio();
             }
 
             ready(getStations());

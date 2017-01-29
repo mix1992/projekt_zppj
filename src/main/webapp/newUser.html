@@ -75,25 +75,48 @@
 
             function save() {
                 var data = {};
-                data['email'] = document.getElementById("email").value;
-                data['firstName'] = document.getElementById("firstName").value;
-                data['lastName'] = document.getElementById("lastName").value;
-                data['password'] = document.getElementById("password").value;
+                var send = true;
+                if (document.getElementById("email").value === null || document.getElementById("email").value === "") {
+                    send = false;
+                    alert("Uzupełnij Email!");
+                }
+                if (document.getElementById("firstName").value === null || document.getElementById("firstName").value === "") {
+                    send = false;
+                    alert("Uzupełnij Imię!");
+                }
+                if (document.getElementById("lastName").value === null || document.getElementById("lastName").value === "") {
+                    send = false;
+                    alert("Uzupełnij Nazwisko!");
+                }
+                if (document.getElementById("password").value === null || document.getElementById("password").value === "") {
+                    send = false;
+                    alert("Uzupełnij Hasło!");
+                }
+                if (document.getElementById("password").value !== document.getElementById("password2").value) {
+                    send = false;
+                    alert("Hasła są różne!");
+                }
+                if (send) {
+                    data['email'] = document.getElementById("email").value;
+                    data['firstName'] = document.getElementById("firstName").value;
+                    data['lastName'] = document.getElementById("lastName").value;
+                    data['password'] = document.getElementById("password").value;
 
-                var xhr = new XMLHttpRequest();
-                xhr.open("POST", 'rest/user', true);
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState == XMLHttpRequest.DONE) {
-                        if (xhr.status === 202) {
-                            document.location.href = "radio.html";
-                        } else {
-                            alert("Coś poszło nie tak");
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("POST", 'rest/user', true);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                            if (xhr.status === 202) {
+                                document.location.href = "radio.html";
+                            } else {
+                                alert("Coś poszło nie tak");
+                            }
                         }
                     }
+                    xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+                    xhr.setRequestHeader("Session-token", getToken());
+                    xhr.send(JSON.stringify(data));
                 }
-                xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-                xhr.setRequestHeader("Session-token", getToken());
-                xhr.send(JSON.stringify(data));
             }
         </script>
         <script src="js/cookie.js"></script>

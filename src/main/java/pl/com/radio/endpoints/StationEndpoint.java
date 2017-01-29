@@ -5,6 +5,7 @@
  */
 package pl.com.radio.endpoints;
 
+import annotations.AuthRequired;
 import io.swagger.annotations.Api;
 import java.util.List;
 import javax.inject.Inject;
@@ -14,6 +15,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
+import pl.com.radio.exceptions.ServiceException;
 import pl.com.radio.models.StationDTO;
 import pl.com.radio.services.StationService;
 
@@ -23,6 +25,11 @@ import pl.com.radio.services.StationService;
  */
 @Api("Station Endpoints")
 @Path("station")
+@AuthRequired
+/**
+ * Class extends the BaseEndpoint type and represents endpoint that can send and receive message
+ * to add new station or delete station
+ */
 public class StationEndpoint extends BaseEndpoint {
 
     @Inject
@@ -30,8 +37,12 @@ public class StationEndpoint extends BaseEndpoint {
 
     @POST
     public Response addStation(StationDTO stationDTO) {
-        StationDTO responseDTO = stationService.addStation(stationDTO);
-        return Response.accepted().entity(responseDTO).build();
+        try {
+            StationDTO responseDTO = stationService.addStation(stationDTO);
+            return Response.accepted().entity(responseDTO).build();
+        } catch (ServiceException ex) {
+            return Response.serverError().entity(ex).build();
+        }
     }
 
     @GET
@@ -42,7 +53,7 @@ public class StationEndpoint extends BaseEndpoint {
 
     @DELETE
     @Path("{stationId}")
-    public Response deleteStation(@PathParam("userId") Long stationId) {
+    public Response deleteStation(@PathParam("stationId") Long stationId) {
         StationDTO stationDTO = stationService.deleteStation(stationId);
         return Response.accepted().entity(stationDTO).build();
     }

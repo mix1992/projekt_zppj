@@ -19,6 +19,9 @@ import javax.ws.rs.core.MediaType;
 @RequestScoped
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
+/**
+ * Class to create HTTP servlet suitable for a Web site
+ */
 public abstract class BaseEndpoint {
 
     @Context

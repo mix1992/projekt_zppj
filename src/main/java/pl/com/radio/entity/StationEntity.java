@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -20,6 +22,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(schema = "web", name = "station")
+@NamedQueries({
+    @NamedQuery(name = "Station.all", query = "SELECT s FROM StationEntity s")
+})
+/**
+ * Class to serialize object of station entity
+ */
 public class StationEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -33,6 +33,15 @@ import javax.persistence.UniqueConstraint;
     @NamedQuery(name = "User.byEmail", query = "SELECT u FROM UserEntity u WHERE u.email = :email"),
     @NamedQuery(name = "User.all", query = "SELECT u FROM UserEntity u")
 })
+/**
+ * Class to serialization objects in user entity in table
+ * @param id is id number of user
+ * @param login is user login
+ * @param firstName is user first name
+ * @param lastName is user surname
+ * @param email is user email
+ * @param password is user password
+ */
 public class UserEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -59,6 +68,7 @@ public class UserEntity implements Serializable {
 
     @Column(name = "password")
     private String password;
+
 
     public Long getId() {
         return id;

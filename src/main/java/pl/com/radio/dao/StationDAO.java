@@ -7,6 +7,7 @@ package pl.com.radio.dao;
 
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import pl.com.radio.entity.StationEntity;
 
 /**
@@ -14,6 +15,9 @@ import pl.com.radio.entity.StationEntity;
  * @author bartek
  */
 @Stateless
+/**
+ * Class using to handle support with database about radio station, to find station
+ */
 public class StationDAO extends BaseDAO {
 
     public StationEntity find(long id) {
@@ -21,7 +25,8 @@ public class StationDAO extends BaseDAO {
     }
 
     public List<StationEntity> findAllStations() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Query q = em.createNamedQuery("Station.all");
+        return q.getResultList();
     }
 
 }

@@ -12,13 +12,15 @@ import javax.ws.rs.core.Application;
 import org.reflections.Reflections;
 
 /**
- *
+ * Class that extends Application and uses the ApplicationPath annotation
+ * to define the base URI of the resources
  * @author bartek
  */
 @ApplicationPath("rest")
 public class JaxRsActivator extends Application {
 
     @Override
+
     public Set<Class<?>> getClasses() {
         Set<Class<?>> s = new HashSet<>();
         s.add(io.swagger.jaxrs.listing.ApiListingResource.class);
@@ -27,6 +29,10 @@ public class JaxRsActivator extends Application {
         return s;
     }
 
+    /**
+     * Function automatically populated all resources defined in the project.
+     * @param resources is object with data from resources
+     */
     private void addRestResourceClassess(Set<Class<?>> resources) {
         Reflections reflections = new Reflections("pl.com.radio.endpoints");
         Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(javax.ws.rs.Path.class);

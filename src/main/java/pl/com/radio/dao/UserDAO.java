@@ -15,6 +15,9 @@ import pl.com.radio.entity.UserEntity;
  * @author bartek
  */
 @Stateless
+/**
+ * Class using to handle support with database to find users by id or all
+ */
 public class UserDAO extends BaseDAO {
 
     public UserEntity find(long id) {

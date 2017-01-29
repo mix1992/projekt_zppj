@@ -31,6 +31,10 @@ import javax.persistence.Table;
     @NamedQuery(name = "InternalToken.userByValidToken", query = "SELECT t.user FROM InternalToken t WHERE t.value = :value and t.expirationTime > :now"),
     @NamedQuery(name = "InternalToken.byValue", query = "SELECT t FROM InternalToken t WHERE t.value = :value")
 })
+
+/**
+ * Class to generate token for user after authentication
+ */
 public class InternalToken implements Serializable {
 
     @Id

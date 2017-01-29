@@ -11,13 +11,12 @@ import pl.com.radio.entity.UserEntity;
  *
  * @author bartek
  */
-
 /**
  *
  * Class to mapping user in JSON using data transfer object
  */
- */
 public class UserDTO implements Mapper<UserEntity, UserDTO> {
+
     /**
      * @param id is id number of each user
      * @param login is login each user

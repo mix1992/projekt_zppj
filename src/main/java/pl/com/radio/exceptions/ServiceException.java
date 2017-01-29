@@ -9,6 +9,10 @@ package pl.com.radio.exceptions;
  *
  * @author bartek
  */
+
+/**
+ * Class implements method to handling with service exceptions.
+ */
 public class ServiceException extends Exception {
 
     private final int code;

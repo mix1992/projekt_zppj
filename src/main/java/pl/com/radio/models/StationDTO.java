@@ -11,8 +11,16 @@ import pl.com.radio.entity.StationEntity;
  *
  * @author bartek
  */
+/**
+ * Class to mapping station in JSON using data transfer object
+ */
 public class StationDTO implements Mapper<StationEntity, StationDTO> {
 
+    /**
+     * @param id is id number of station
+     * @param name is name of station
+     * @param path is path to station
+     */
     private Long id;
     private String name;
     private String path;

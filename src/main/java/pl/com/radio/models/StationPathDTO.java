@@ -9,6 +9,10 @@ package pl.com.radio.models;
  *
  * @author bartek
  */
+
+/**
+ * Class to mapping station path in JSON using data transfer object
+ */
 public class StationPathDTO {
 
     private String path;

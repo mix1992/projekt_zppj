@@ -22,6 +22,9 @@ import pl.com.radio.services.UserService;
 /**
  *
  * @author bartek
+ *
+ * Class extends the BaseEndpoint type and represents endpoint that can send and
+ * receive message to user service like get user, delete user or add user.
  */
 @Api("User Endpoints")
 @Path("user")

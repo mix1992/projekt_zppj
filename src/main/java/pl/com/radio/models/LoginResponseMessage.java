@@ -9,6 +9,10 @@ package pl.com.radio.models;
  *
  * @author bartek
  */
+
+/**
+ * Class implement response message for login
+ */
 public class LoginResponseMessage {
 
     private UserDTO userDTO;

@@ -24,6 +24,10 @@ import pl.com.radio.services.RadioService;
 @Api("Radio Endpoints")
 @Path("radio")
 @AuthRequired
+/**
+ * Class extends the BaseEndpoint type and represents endpoint that can send and receive message
+ * to stop radio, play radio or change current station
+ */
 public class RadioEndpoint extends BaseEndpoint {
 
     @Inject

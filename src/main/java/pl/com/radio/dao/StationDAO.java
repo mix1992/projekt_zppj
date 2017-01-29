@@ -15,6 +15,9 @@ import pl.com.radio.entity.StationEntity;
  * @author bartek
  */
 @Stateless
+/**
+ * Class using to handle support with database about radio station, to find station
+ */
 public class StationDAO extends BaseDAO {
 
     public StationEntity find(long id) {

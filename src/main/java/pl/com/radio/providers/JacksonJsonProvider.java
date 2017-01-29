@@ -15,12 +15,16 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.Provider;
 
 /**
- *
  * @author bartek
  */
 @Produces(MediaType.APPLICATION_JSON)
 @Provider
+/**
+ * Implementations for JSON using Jackson data binding
+ * @param mapper provides functionality for converting between Java objects and matching JSON constructs
+ */
 public class JacksonJsonProvider extends JacksonJaxbJsonProvider {
+
 
     public JacksonJsonProvider() {
         ObjectMapper mapper = new ObjectMapper();

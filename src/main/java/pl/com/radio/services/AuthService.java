@@ -27,6 +27,11 @@ import pl.com.radio.models.UserDTO;
  *
  * @author bartek
  */
+
+/**
+ * Class implement method to handle with authentication user, generate token, get user with token,
+ * create response message and decode.
+ */
 @Stateless
 public class AuthService {
 

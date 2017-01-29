@@ -11,8 +11,20 @@ import pl.com.radio.entity.UserEntity;
  *
  * @author bartek
  */
+/**
+ *
+ * Class to mapping user in JSON using data transfer object
+ */
 public class UserDTO implements Mapper<UserEntity, UserDTO> {
 
+    /**
+     * @param id is id number of each user
+     * @param login is login each user
+     * @param firstName is user name
+     * @param lastName is user surname
+     * @param email is user email
+     * @param password is personal user password
+     */
     private Long id;
     private String login;
     private String firstName;
@@ -21,6 +33,9 @@ public class UserDTO implements Mapper<UserEntity, UserDTO> {
     private String password;
 
     @Override
+    /**
+     * Function use to hibernate populate the entity
+     */
     public UserDTO populate(UserEntity entity) {
         this.id = entity.getId();
         this.login = entity.getLogin();
@@ -31,6 +46,9 @@ public class UserDTO implements Mapper<UserEntity, UserDTO> {
     }
 
     @Override
+    /**
+     * Function use to hibernate reverse populate the entity
+     */
     public void reversePopulate(UserEntity entity) {
         entity.setEmail(email);
         entity.setFirstName(firstName);

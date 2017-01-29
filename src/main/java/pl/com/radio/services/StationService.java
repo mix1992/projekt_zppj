@@ -17,6 +17,8 @@ import pl.com.radio.models.StationDTO;
 /**
  *
  * @author bartek
+ *
+ * Class implement service method to handle with station configuration.
  */
 @Stateless
 public class StationService {
@@ -24,6 +26,13 @@ public class StationService {
     @Inject
     private StationDAO stationDAO;
 
+    /**
+     * Function to create new station
+     *
+     * @param stationDTO is data transfer object to mapping station on JSON form
+     * @return new populate entity of station
+     * @throws ServiceException
+     */
     public StationDTO addStation(StationDTO stationDTO) throws ServiceException {
         checkStationDTO(stationDTO);
         StationEntity stationEntity = new StationEntity();
@@ -32,6 +41,11 @@ public class StationService {
         return new StationDTO().populate(stationEntity);
     }
 
+    /**
+     * Cast Object to List of station data transfer object
+     *
+     * @return station parameters
+     */
     public List<StationDTO> getStations() {
         List<StationEntity> stations = stationDAO.findAllStations();
         List<StationDTO> stationsDTO = new ArrayList<>();
@@ -40,6 +54,12 @@ public class StationService {
         return stationsDTO;
     }
 
+    /**
+     * Function responsible to delete user
+     *
+     * @param stationId is Id number of station wich want to delete
+     * @return station entity without deleted station
+     */
     public StationDTO deleteStation(Long stationId) {
         StationEntity stationEntity = stationDAO.find(stationId);
         if (stationEntity == null) {
@@ -49,6 +69,11 @@ public class StationService {
         return new StationDTO().populate(stationEntity);
     }
 
+    /**
+     *
+     * @param stationDTO
+     * @throws ServiceException
+     */
     private void checkStationDTO(StationDTO stationDTO) throws ServiceException {
         if (stationDTO.getName() == null || stationDTO.getName().isEmpty()) {
             throw new ServiceException(0, "stationNameNotFound");

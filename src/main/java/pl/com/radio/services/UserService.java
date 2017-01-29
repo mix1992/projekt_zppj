@@ -17,6 +17,8 @@ import pl.com.radio.models.UserDTO;
 /**
  *
  * @author bartek
+ *
+ * Class implement service method to handle with user configuration.
  */
 @Stateless
 public class UserService {
@@ -24,6 +26,14 @@ public class UserService {
     @Inject
     private UserDAO userDAO;
 
+    /**
+     * Function responsible to create new user
+     *
+     * @param userDTO Data transfer object for user witch have a data about
+     * users
+     * @return new user account
+     * @throws ServiceException
+     */
     public UserDTO createUser(UserDTO userDTO) throws ServiceException {
         checkUserDTO(userDTO);
         UserEntity userEntity = new UserEntity();
@@ -33,6 +43,11 @@ public class UserService {
         return new UserDTO().populate(userEntity);
     }
 
+    /**
+     * Cast Object to List of user data transfer object
+     *
+     * @return user data
+     */
     public List<UserDTO> getUsers() {
         List<UserEntity> users = userDAO.findAllUsers();
         List<UserDTO> usersDTO = new ArrayList<>();
@@ -41,6 +56,13 @@ public class UserService {
         return usersDTO;
     }
 
+    /**
+     * Function responsible to delete user
+     *
+     * @param userId is Id number of user wich want to delete
+     * @return new user list without deleting user
+     * @throws ServiceException activate exception when user doesn't exist
+     */
     public UserDTO deleteUser(Long userId) throws ServiceException {
         UserEntity userEntity = userDAO.find(userId);
         if (userEntity == null) {
@@ -50,6 +72,12 @@ public class UserService {
         return new UserDTO().populate(userEntity);
     }
 
+    /**
+     * Function to check user data
+     *
+     * @param userDTO is user data object mapping user in JSON
+     * @throws ServiceException activate exception when user doesn't exist
+     */
     private void checkUserDTO(UserDTO userDTO) throws ServiceException {
         if (userDTO.getEmail() == null || userDTO.getEmail().isEmpty()) {
             throw new ServiceException(0, "userEmailNotFound");

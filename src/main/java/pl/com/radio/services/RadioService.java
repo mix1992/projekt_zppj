@@ -13,6 +13,11 @@ import pl.com.radio.models.StationDTO;
  *
  * @author bartek
  */
+
+/**
+ * Class implement service method like start radio, stop radio, current played station
+ * to use radio how user need.
+ */
 @ApplicationScoped
 public class RadioService {
 

@@ -26,6 +26,7 @@ import pl.com.radio.services.AuthService;
 @Provider
 @Priority(Priorities.AUTHENTICATION)
 @AuthRequired
+
 public class AuthRequestFilter implements ContainerRequestFilter {
 
     @Context

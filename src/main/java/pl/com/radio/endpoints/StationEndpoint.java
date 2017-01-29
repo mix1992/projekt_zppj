@@ -22,6 +22,9 @@ import pl.com.radio.services.StationService;
 /**
  *
  * @author bartek
+ *
+ * Class extends the BaseEndpoint type and represents endpoint that can send and
+ * receive message to add new station or delete station
  */
 @Api("Station Endpoints")
 @Path("station")

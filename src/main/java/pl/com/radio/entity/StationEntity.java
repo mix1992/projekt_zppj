@@ -19,6 +19,8 @@ import javax.persistence.Table;
 /**
  *
  * @author bartek
+ *
+ * Class to serialize object of station entity
  */
 @Entity
 @Table(schema = "web", name = "station")

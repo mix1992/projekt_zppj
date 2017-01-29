@@ -17,6 +17,9 @@ import pl.com.radio.entity.UserEntity;
  * @author bartek
  */
 @Stateless
+/**
+ * Class using to handle support with database about authentication using token
+ */
 public class AuthDAO extends BaseDAO {
 
     public UserEntity findUserByValidInternalToken(String internalTokenValue) {

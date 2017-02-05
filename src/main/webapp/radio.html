@@ -9,6 +9,7 @@
     </head>
     <body>
         <div class="container-fluid" style="margin-top: 5%">
+            <label id="currentPlayedStation" class="pull-left" style="margin-left: 10%">Nic nie jest odtwarzane</label>
             <button type="button" class="btn btn-default pull-right" style="margin-right: 20%" onclick="logout()">
                 Wyloguj
             </button>
@@ -113,6 +114,14 @@
                     xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
                     xhr.setRequestHeader("Session-token", getToken());
                     xhr.send(JSON.stringify(data));
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                            if (xhr.status === 200) {
+                                getCurrentPlayStation();
+                            }
+                        }
+                    }
+
                 } else {
                     alert('Podaj adres Radia');
                 }
@@ -122,7 +131,15 @@
                 var xhr = new XMLHttpRequest();
                 xhr.open("GET", 'rest/radio', true);
                 xhr.setRequestHeader("Session-token", getToken());
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            getCurrentPlayStation();
+                        }
+                    }
+                }
                 xhr.send();
+
             }
 
             function addUser() {
@@ -263,8 +280,31 @@
                 startRadio();
             }
 
+            function getCurrentPlayStation() {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", 'rest/radio/currentStation', true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            var jsonObject = JSON.parse(xhr.responseText);
+                            if (jsonObject.path !== '') {
+                                document.getElementById("currentPlayedStation").innerHTML = "Aktualna stacja: " + jsonObject.path;
+                            } else {
+                                document.getElementById("currentPlayedStation").innerHTML = "Aktualna stacja: Nic nie jest odtwarzane";
+                            }
+
+                        } else {
+                            alert("Coś poszło nie tak");
+                        }
+                    }
+                }
+                xhr.setRequestHeader("Session-token", getToken());
+                xhr.send();
+            }
+
             ready(getStations());
             ready(getUsers());
+            ready(getCurrentPlayStation())
         </script>
 
         <script src="js/cookie.js"></script>

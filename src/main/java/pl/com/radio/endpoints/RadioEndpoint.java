@@ -25,8 +25,8 @@ import pl.com.radio.services.RadioService;
 @Path("radio")
 @AuthRequired
 /**
- * Class extends the BaseEndpoint type and represents endpoint that can send and receive message
- * to stop radio, play radio or change current station
+ * Class extends the BaseEndpoint type and represents endpoint that can send and
+ * receive message to stop radio, play radio or change current station
  */
 public class RadioEndpoint extends BaseEndpoint {
 
@@ -44,12 +44,12 @@ public class RadioEndpoint extends BaseEndpoint {
         radioService.stopRadio();
         return Response.ok().build();
     }
-    
+
     @GET
     @Path("currentStation")
     public Response getCurrentStation() {
         StationDTO stationDTO = radioService.getCurrentPplayedStation();
-        return Response.accepted().entity(stationDTO).build();
+        return Response.ok().entity(stationDTO).build();
     }
 
 }

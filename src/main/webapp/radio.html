@@ -260,19 +260,23 @@
             }
 
             function removeUser(id) {
-                var xhr = new XMLHttpRequest();
-                xhr.open("DELETE", 'rest/user/' + id, true);
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        if (xhr.status === 202) {
-                            getUsers();
-                        } else {
-                            alert("Coś poszło nie tak");
+                if (id !== Number(getCookie("userId"))) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("DELETE", 'rest/user/' + id, true);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                            if (xhr.status === 202) {
+                                getUsers();
+                            } else {
+                                alert("Coś poszło nie tak");
+                            }
                         }
                     }
+                    xhr.setRequestHeader("Session-token", getToken());
+                    xhr.send();
+                } else {
+                    alert("Nie mozesz usunąć sam siebie");
                 }
-                xhr.setRequestHeader("Session-token", getToken());
-                xhr.send();
             }
 
             function play(path) {

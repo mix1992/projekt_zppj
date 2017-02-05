@@ -18,6 +18,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  *
@@ -35,6 +37,7 @@ import javax.persistence.UniqueConstraint;
 })
 /**
  * Class to serialization objects in user entity in table
+ *
  * @param id is id number of user
  * @param login is user login
  * @param firstName is user first name
@@ -64,11 +67,11 @@ public class UserEntity implements Serializable {
     private String email;
 
     @OneToOne(fetch = FetchType.EAGER)
+    @Cascade(CascadeType.REMOVE)
     private InternalToken internalToken;
 
     @Column(name = "password")
     private String password;
-
 
     public Long getId() {
         return id;

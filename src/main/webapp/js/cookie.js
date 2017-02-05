@@ -14,6 +14,10 @@ function saveToCookie(token) {
     document.cookie = "token=" + token + ";";
 }
 
+function saveUserIdToCookie(userId) {
+    document.cookie = "userId=" + userId + ";";
+}
+
 function getFromCookie() {
     var cookie = document.cookie.split(';');
     return cookie;
